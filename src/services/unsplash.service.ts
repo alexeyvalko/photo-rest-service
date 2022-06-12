@@ -35,7 +35,7 @@ export class UnsplashService {
         statusCode: status,
         results,
         total,
-        total_pages: Math.ceil(total / 30),
+        total_pages: Math.ceil(total / options.per_page),
       };
     } else {
       throw new HttpException(
