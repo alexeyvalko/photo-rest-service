@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LatestService } from './latest.service';
 import { LatestController } from './latest.controller';
-import { UnsplashService } from '../unsplash/unsplash.service';
+import { UnsplashService } from '../services/unsplash.service';
 
 @Module({
   controllers: [LatestController],

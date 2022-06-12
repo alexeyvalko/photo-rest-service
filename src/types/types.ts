@@ -9,8 +9,9 @@ export interface IPhotoListOptions {
 
 export interface IResponsePhotos<T> {
   type: ResponseTypeUnsplash;
-  status: HttpStatus;
+  statusCode: HttpStatus;
   results: T[];
+  errors?: never;
   total: number;
   total_pages: number;
 }

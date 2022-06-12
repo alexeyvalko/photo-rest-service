@@ -1,4 +1,4 @@
-import { UnsplashService } from '../unsplash/unsplash.service';
+import { UnsplashService } from '../services/unsplash.service';
 import { Injectable } from '@nestjs/common';
 import { IPhotoListOptions } from 'src/types/types';
 

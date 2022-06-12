@@ -1,4 +1,4 @@
-import { PhotoBasic } from './../types/unsplash/photos';
+import { PhotoBasic } from '../types/unsplash/photos';
 import fetch from 'node-fetch';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { createApi } from 'unsplash-js';
@@ -32,7 +32,7 @@ export class UnsplashService {
     if (status === HttpStatus.OK) {
       return {
         type,
-        status,
+        statusCode: status,
         results,
         total,
         total_pages: Math.ceil(total / 30),
@@ -41,7 +41,7 @@ export class UnsplashService {
       throw new HttpException(
         {
           type,
-          status,
+          statusCode: status,
           message: 'Error while fetching list of photos',
         },
         status,
