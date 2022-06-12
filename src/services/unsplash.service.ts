@@ -18,17 +18,15 @@ export class UnsplashService {
     });
   }
 
-  async getPhotoList(
-    options: IPhotoListOptions,
-  ): Promise<IResponsePhotos<PhotoBasic>> {
-    const response: IResponseUnsplash<PhotoBasic> =
-      await this.unsplash.photos.list(options);
+  async getPhotoList(options: IPhotoListOptions): Promise<IResponsePhotos<PhotoBasic>> {
+    const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.photos.list(options);
 
     const {
       type,
       status,
       response: { results, total },
     } = response;
+
     if (status === HttpStatus.OK) {
       return {
         type,
