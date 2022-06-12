@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { handleExceptions } from './HandleExceptions';
-import { buildSwaggerDocs } from './swagger';
+import { handleExceptions } from './utils/handleExceptions';
+import { buildSwaggerDocs } from './utils/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
