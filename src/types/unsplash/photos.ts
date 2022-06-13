@@ -28,6 +28,7 @@ export interface PhotoVeryBasic {
     full: string;
     raw: string;
     regular: string;
+    medium: string;
     small: string;
     thumb: string;
   };

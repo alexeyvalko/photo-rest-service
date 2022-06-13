@@ -18,9 +18,9 @@ export class LatestController {
   @HttpCode(HttpStatus.OK)
   getPhotoList(
     @Query('page', PagePipe) page: number,
-    @Query('per_page', PerPagePipe) per_page: number,
-    @Query('order_by', OrderByPhotoListPipe) order_by: OrderByType,
+    @Query('per_page', PerPagePipe) perPage: number,
+    @Query('order_by', OrderByPhotoListPipe) orderBy: OrderByType,
   ) {
-    return this.latestService.getPhotoList({ page, per_page, order_by });
+    return this.latestService.getPhotoList({ page, perPage, orderBy });
   }
 }

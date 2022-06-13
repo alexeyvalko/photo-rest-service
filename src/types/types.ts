@@ -3,8 +3,8 @@ import { OrderByType, ResponseTypeUnsplash } from './unsplash/helpers';
 
 export interface IPhotoListOptions {
   page: number;
-  per_page: number;
-  order_by: OrderByType;
+  perPage: number;
+  orderBy: OrderByType;
 }
 
 export interface IResponsePhotos<T> {

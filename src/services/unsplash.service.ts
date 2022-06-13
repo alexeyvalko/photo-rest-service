@@ -19,6 +19,7 @@ export class UnsplashService {
   }
 
   async getPhotoList(options: IPhotoListOptions): Promise<IResponsePhotos<PhotoBasic>> {
+    console.log(options);
     const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.photos.list(options);
 
     const {
@@ -28,12 +29,13 @@ export class UnsplashService {
     } = response;
 
     if (status === HttpStatus.OK) {
+      console.log(results.length);
       return {
         type,
         statusCode: status,
-        results,
+        results: this.addNewPhotoSize(results, 'medium', '600'),
         total,
-        total_pages: Math.ceil(total / options.per_page),
+        total_pages: Math.ceil(total / options.perPage),
       };
     } else {
       throw new HttpException(
@@ -45,5 +47,24 @@ export class UnsplashService {
         status,
       );
     }
+  }
+
+  private addNewPhotoSize(photos: PhotoBasic[], sizeName: string, size: string): PhotoBasic[] {
+    const SMALL_SIZE = 'w=400';
+    const NEW_SIZE = `w=${size}`;
+    const resultsWithMediumSize = photos.map((photo) => {
+      const smallSizeURlArray = photo.urls.small.split('&');
+      const isCanCreateNewSize =
+        smallSizeURlArray.lastIndexOf(SMALL_SIZE) === smallSizeURlArray.length - 1;
+      if (isCanCreateNewSize) {
+        smallSizeURlArray.splice(-1, 1, NEW_SIZE);
+        photo.urls[sizeName] = smallSizeURlArray.join('&');
+      } else {
+        photo.urls[sizeName] = photo.urls.regular;
+      }
+      return photo;
+    });
+
+    return resultsWithMediumSize;
   }
 }

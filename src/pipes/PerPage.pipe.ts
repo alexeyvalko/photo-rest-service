@@ -1,13 +1,14 @@
 import { PipeTransform, Injectable } from '@nestjs/common';
+import { DEFAULT_PER_PAGE } from 'src/config/constants';
 
 @Injectable()
 export class PerPagePipe implements PipeTransform {
   transform(value?: string) {
     if (value) {
       const isNumber = Number.isInteger(+value);
-      return isNumber ? value : 10;
+      return isNumber ? value : DEFAULT_PER_PAGE;
     }
 
-    return 10;
+    return DEFAULT_PER_PAGE;
   }
 }

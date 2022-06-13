@@ -1,13 +1,14 @@
 import { PipeTransform, Injectable } from '@nestjs/common';
+import { DEFAULT_ORDER_BY_PHOTO_LIST, ORDER_BY_PHOTO_LIST } from 'src/config/constants';
 
 @Injectable()
 export class OrderByPhotoListPipe implements PipeTransform {
   transform(value?: string) {
     if (value) {
-      const isCorrectOrderBy = ['latest', 'oldest', 'popular'].includes(value);
-      return isCorrectOrderBy ? value : 'latest';
+      const isCorrectOrderBy = ORDER_BY_PHOTO_LIST.includes(value);
+      return isCorrectOrderBy ? value : DEFAULT_ORDER_BY_PHOTO_LIST;
     }
 
-    return 'latest';
+    return DEFAULT_ORDER_BY_PHOTO_LIST;
   }
 }
