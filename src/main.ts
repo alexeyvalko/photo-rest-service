@@ -10,7 +10,7 @@ async function bootstrap() {
   const { port, host } = configService.get('server');
 
   buildSwaggerDocs(app, 'docs');
-
+  app.enableCors();
   await app.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
   });

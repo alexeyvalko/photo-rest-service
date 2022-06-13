@@ -19,7 +19,6 @@ export class UnsplashService {
   }
 
   async getPhotoList(options: IPhotoListOptions): Promise<IResponsePhotos<PhotoBasic>> {
-    console.log(options);
     const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.photos.list(options);
 
     const {
@@ -29,7 +28,6 @@ export class UnsplashService {
     } = response;
 
     if (status === HttpStatus.OK) {
-      console.log(results.length);
       return {
         type,
         statusCode: status,
