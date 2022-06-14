@@ -50,7 +50,7 @@ export class UnsplashService {
   private addNewPhotoSize(photos: PhotoBasic[], sizeName: string, size: number): PhotoBasic[] {
     const SMALL_SIZE = 'w=400';
     const NEW_SIZE = `w=${size}`;
-    const resultsWithMediumSize = photos.map((photo) => {
+    const resultsWithNewSize = photos.map((photo) => {
       const smallSizeURlArray = photo.urls.small.split('&');
       const isCanCreateNewSize =
         smallSizeURlArray.lastIndexOf(SMALL_SIZE) === smallSizeURlArray.length - 1;
@@ -63,6 +63,6 @@ export class UnsplashService {
       return photo;
     });
 
-    return resultsWithMediumSize;
+    return resultsWithNewSize;
   }
 }
