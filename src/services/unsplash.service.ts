@@ -19,30 +19,40 @@ export class UnsplashService {
   }
 
   async getPhotoList(options: IPhotoListOptions): Promise<IResponsePhotos<PhotoBasic>> {
-    const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.photos.list(options);
-
-    const {
-      type,
-      status,
-      response: { results, total },
-    } = response;
-    if (status === HttpStatus.OK) {
-      const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
-      return {
+    try {
+      const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.photos.list(options);
+      const {
         type,
-        statusCode: status,
-        results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
-        total,
-        total_pages: Math.ceil(total / options.perPage),
-      };
-    } else {
-      throw new HttpException(
-        {
+        status,
+        response: { results, total },
+      } = response;
+      if (status === HttpStatus.OK) {
+        const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
+        return {
           type,
           statusCode: status,
-          message: 'Error while fetching list of photos',
+          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
+          total,
+          total_pages: Math.ceil(total / options.perPage),
+        };
+      } else {
+        throw new HttpException(
+          {
+            type,
+            statusCode: status,
+            message: 'Error while fetching list of photos',
+          },
+          status,
+        );
+      }
+    } catch (error) {
+      throw new HttpException(
+        {
+          type: 'error',
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: error.message,
         },
-        status,
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
