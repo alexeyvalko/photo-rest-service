@@ -26,12 +26,12 @@ export class UnsplashService {
       status,
       response: { results, total },
     } = response;
-
     if (status === HttpStatus.OK) {
+      const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
       return {
         type,
         statusCode: status,
-        results: this.addNewPhotoSize(results, 'medium', '600'),
+        results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
         total,
         total_pages: Math.ceil(total / options.perPage),
       };
@@ -47,7 +47,7 @@ export class UnsplashService {
     }
   }
 
-  private addNewPhotoSize(photos: PhotoBasic[], sizeName: string, size: string): PhotoBasic[] {
+  private addNewPhotoSize(photos: PhotoBasic[], sizeName: string, size: number): PhotoBasic[] {
     const SMALL_SIZE = 'w=400';
     const NEW_SIZE = `w=${size}`;
     const resultsWithMediumSize = photos.map((photo) => {

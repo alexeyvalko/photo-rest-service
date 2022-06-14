@@ -46,6 +46,7 @@ export interface PhotoBasic extends PhotoVeryBasic {
     download: string;
     download_location: string;
   };
+  sponsorship: Nullable<string>;
   promoted_at: Nullable<string>;
   width: number;
   user: UserBasic;
