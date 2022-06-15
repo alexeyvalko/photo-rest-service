@@ -5,7 +5,7 @@ import { createApi } from 'unsplash-js';
 import { ConfigService } from '@nestjs/config';
 import { Unsplash } from 'src/types/unsplash/unsplash';
 import { IResponseUnsplash } from 'src/types/unsplash/responses';
-import { IPhotoListOptions, IResponsePhotos } from 'src/types/types';
+import { IPhotoListOptions, IResponsePhotos, ISearchOptions } from 'src/types/interfaces';
 
 @Injectable()
 export class UnsplashService {
@@ -31,9 +31,9 @@ export class UnsplashService {
         return {
           type,
           statusCode: status,
-          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
           total,
           total_pages: Math.ceil(total / options.perPage),
+          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
         };
       } else {
         throw new HttpException(
@@ -44,6 +44,36 @@ export class UnsplashService {
           },
           status,
         );
+      }
+    } catch (error) {
+      throw new HttpException(
+        {
+          type: 'error',
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async searchPhotos(options: ISearchOptions): Promise<IResponsePhotos<PhotoBasic>> {
+    try {
+      const response: IResponseUnsplash<PhotoBasic> = await this.unsplash.search.getPhotos(options);
+      const {
+        type,
+        status,
+        response: { results, total, total_pages },
+      } = response;
+      if (status === HttpStatus.OK) {
+        const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
+        return {
+          type,
+          statusCode: status,
+          total,
+          total_pages,
+          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
+        };
       }
     } catch (error) {
       throw new HttpException(

@@ -1,6 +1,6 @@
 import { UnsplashService } from '../services/unsplash.service';
 import { Injectable } from '@nestjs/common';
-import { IPhotoListOptions } from 'src/types/types';
+import { IPhotoListOptions } from 'src/types/interfaces';
 
 @Injectable()
 export class PhotosService {

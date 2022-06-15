@@ -3,7 +3,7 @@ import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { OrderByPhotoListPipe } from 'src/pipes/OrderByPhotoList.pipe';
 import { PagePipe } from 'src/pipes/Page.pipe';
 import { PhotosService } from './photos.service';
-import { OrderByType } from 'src/types/unsplash/helpers';
+import { PhotosOrderByType } from 'src/types/unsplash/helpers';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
 @ApiTags('photos')
@@ -19,7 +19,7 @@ export class PhotosController {
   getPhotoList(
     @Query('page', PagePipe) page: number,
     @Query('per_page', PerPagePipe) perPage: number,
-    @Query('order_by', OrderByPhotoListPipe) orderBy: OrderByType,
+    @Query('order_by', OrderByPhotoListPipe) orderBy: PhotosOrderByType,
   ) {
     return this.photoService.getPhotoList({ page, perPage, orderBy });
   }

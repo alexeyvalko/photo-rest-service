@@ -7,6 +7,7 @@ export interface IResponseUnsplash<T> {
   response: {
     results: T[];
     total: number;
+    total_pages: number;
   };
   errors?: never;
   originalResponse: {

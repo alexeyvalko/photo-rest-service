@@ -50,4 +50,5 @@ export interface PhotoBasic extends PhotoVeryBasic {
   promoted_at: Nullable<string>;
   width: number;
   user: UserBasic;
+  tags: [];
 }
