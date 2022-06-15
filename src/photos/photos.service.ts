@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { IPhotoListOptions } from 'src/types/types';
 
 @Injectable()
-export class LatestService {
+export class PhotosService {
   constructor(private unsplashService: UnsplashService) {}
 
   getPhotoList(options: IPhotoListOptions) {

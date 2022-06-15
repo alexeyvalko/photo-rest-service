@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { LatestModule } from './latest/latest.module';
+import { PhotosModule } from './photos/photos.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -12,7 +12,7 @@ import configuration from './config/configuration';
       load: [configuration],
       cache: true,
     }),
-    LatestModule,
+    PhotosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
