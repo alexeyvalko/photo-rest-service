@@ -9,7 +9,7 @@ import { IPhotoListOptions, IResponsePhotos, ISearchOptions } from 'src/types/in
 
 @Injectable()
 export class UnsplashService {
-  unsplash: Unsplash;
+  private readonly unsplash: Unsplash;
 
   constructor(private configService: ConfigService) {
     this.unsplash = createApi({
@@ -27,6 +27,11 @@ export class UnsplashService {
         response: { results, total },
       } = response;
       if (status === HttpStatus.OK) {
+        console.log(
+          await this.unsplash.photos.trackDownload({
+            downloadLocation: results[1].links.download_location,
+          }),
+        );
         const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
         return {
           type,
@@ -44,6 +49,25 @@ export class UnsplashService {
           },
           status,
         );
+      }
+    } catch (error) {
+      throw new HttpException(
+        {
+          type: 'error',
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async trackDownload(options: { downloadLocation: string }): Promise<IResponseUnsplash<any>> {
+    try {
+      const response: IResponseUnsplash<any> = await this.unsplash.photos.trackDownload(options);
+      const { status } = response;
+      if (status === HttpStatus.OK) {
+        return response;
       }
     } catch (error) {
       throw new HttpException(
