@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { PerPagePipe } from 'src/pipes/PerPage.pipe';
-import { SearchOrderType } from 'src/types/unsplash/helpers';
+import { SearchOrderType, SearchOrientationType } from 'src/types/unsplash/helpers';
 import { OrderBySearchPipe } from 'src/pipes/OrderBySearch.pipe';
 import { PagePipe } from 'src/pipes/Page.pipe';
 
@@ -20,7 +20,9 @@ export class SearchController {
     @Query('page', PagePipe) page: number,
     @Query('per_page', PerPagePipe) perPage: number,
     @Query('order_by', OrderBySearchPipe) orderBy: SearchOrderType,
+    @Query('orientation') orientation?: SearchOrientationType,
   ) {
-    return this.searchService.findAllPhotos({ query, page, perPage, orderBy });
+    const options = { query, page, perPage, orderBy, orientation };
+    return this.searchService.findAllPhotos(options);
   }
 }

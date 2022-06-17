@@ -27,11 +27,6 @@ export class UnsplashService {
         response: { results, total },
       } = response;
       if (status === HttpStatus.OK) {
-        console.log(
-          await this.unsplash.photos.trackDownload({
-            downloadLocation: results[1].links.download_location,
-          }),
-        );
         const filteredAdsResults = results.filter((photo) => !photo.sponsorship);
         return {
           type,
