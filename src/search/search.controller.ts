@@ -1,5 +1,5 @@
 import { OrientationPipe } from './../pipes/Orientation.pipe';
-import { Controller, Get, Query } from '@nestjs/common';
+import { CacheTTL, Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { PerPagePipe } from 'src/pipes/PerPage.pipe';
@@ -21,6 +21,7 @@ export class SearchController {
   @ApiOkResponse({
     description: 'Get list of photos',
   })
+  @CacheTTL(500000)
   findAllPhotos(
     @Query('query') query: string,
     @Query('page', PagePipe) page: number,
