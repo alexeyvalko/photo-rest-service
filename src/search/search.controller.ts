@@ -1,10 +1,16 @@
+import { OrientationPipe } from './../pipes/Orientation.pipe';
 import { Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { PerPagePipe } from 'src/pipes/PerPage.pipe';
-import { SearchOrderType, SearchOrientationType } from 'src/types/unsplash/helpers';
+import {
+  SearchColorsType,
+  SearchOrderType,
+  SearchOrientationType,
+} from 'src/types/unsplash/helpers';
 import { OrderBySearchPipe } from 'src/pipes/OrderBySearch.pipe';
 import { PagePipe } from 'src/pipes/Page.pipe';
+import { ColorsPipe } from 'src/pipes/Colors.pipe';
 
 @ApiTags('search')
 @Controller('search')
@@ -20,9 +26,10 @@ export class SearchController {
     @Query('page', PagePipe) page: number,
     @Query('per_page', PerPagePipe) perPage: number,
     @Query('order_by', OrderBySearchPipe) orderBy: SearchOrderType,
-    @Query('orientation') orientation?: SearchOrientationType,
+    @Query('orientation', OrientationPipe) orientation?: SearchOrientationType,
+    @Query('color', ColorsPipe) color?: SearchColorsType,
   ) {
-    const options = { query, page, perPage, orderBy, orientation };
+    const options = { query, page, perPage, orderBy, orientation, color };
     return this.searchService.findAllPhotos(options);
   }
 }
