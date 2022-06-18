@@ -1,5 +1,5 @@
 import { PerPagePipe } from '../pipes/PerPage.pipe';
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import { CacheTTL, Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { OrderByPhotoListPipe } from 'src/pipes/OrderByPhotoList.pipe';
 import { PagePipe } from 'src/pipes/Page.pipe';
 import { PhotosService } from './photos.service';
@@ -16,6 +16,7 @@ export class PhotosController {
     description: 'Get list of photos',
   })
   @HttpCode(HttpStatus.OK)
+  @CacheTTL(5000)
   getPhotoList(
     @Query('page', PagePipe) page: number,
     @Query('per_page', PerPagePipe) perPage: number,

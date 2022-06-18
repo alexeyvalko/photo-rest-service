@@ -15,7 +15,7 @@ import configuration from './config/configuration';
       cache: true,
     }),
     CacheModule.register({
-      ttl: 50000,
+      ttl: 100000,
       max: 1000,
     }),
     PhotosModule,
