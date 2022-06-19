@@ -17,6 +17,7 @@ import configuration from './config/configuration';
     CacheModule.register({
       ttl: 100000,
       max: 2000,
+      isGlobal: true,
     }),
     PhotosModule,
     SearchModule,
