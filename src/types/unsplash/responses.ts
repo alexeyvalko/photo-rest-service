@@ -15,3 +15,14 @@ export interface IResponseUnsplash<T> {
     timeout: number;
   };
 }
+
+export interface IResponsePhotoUnsplash<T> {
+  type: ResponseTypeUnsplash;
+  status: HttpStatus;
+  response: T;
+  errors?: never;
+  originalResponse: {
+    size: number;
+    timeout: number;
+  };
+}

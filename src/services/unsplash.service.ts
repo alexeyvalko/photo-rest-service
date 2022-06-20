@@ -1,11 +1,17 @@
 import { PhotoBasic } from '../types/unsplash/photos';
 import fetch from 'node-fetch';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { createApi } from 'unsplash-js';
 import { ConfigService } from '@nestjs/config';
 import { Unsplash } from 'src/types/unsplash/unsplash';
-import { IResponseUnsplash } from 'src/types/unsplash/responses';
-import { IPhotoListOptions, IResponsePhotos, ISearchOptions } from 'src/types/interfaces';
+import { IResponsePhotoUnsplash, IResponseUnsplash } from 'src/types/unsplash/responses';
+import {
+  IPhotoListOptions,
+  IResponsePhoto,
+  IResponsePhotos,
+  ISearchOptions,
+} from 'src/types/interfaces';
+import { addNewPhotoSize } from 'src/utils/addNewPhotoSize';
 
 @Injectable()
 export class UnsplashService {
@@ -33,7 +39,7 @@ export class UnsplashService {
           statusCode: status,
           total,
           total_pages: Math.ceil(total / options.perPage),
-          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
+          results: addNewPhotoSize(filteredAdsResults, 'medium', 600),
         };
       } else {
         throw new HttpException(
@@ -46,14 +52,11 @@ export class UnsplashService {
         );
       }
     } catch (error) {
-      throw new HttpException(
-        {
-          type: 'error',
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException({
+        type: 'error',
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
     }
   }
 
@@ -65,14 +68,11 @@ export class UnsplashService {
         return response;
       }
     } catch (error) {
-      throw new HttpException(
-        {
-          type: 'error',
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException({
+        type: 'error',
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
     }
   }
 
@@ -91,37 +91,57 @@ export class UnsplashService {
           statusCode: status,
           total,
           total_pages,
-          results: this.addNewPhotoSize(filteredAdsResults, 'medium', 600),
+          results: addNewPhotoSize(filteredAdsResults, 'medium', 600),
         };
+      } else {
+        throw new HttpException(
+          {
+            type,
+            statusCode: status,
+            message: 'Error while search photos',
+          },
+          status,
+        );
       }
     } catch (error) {
-      throw new HttpException(
-        {
-          type: 'error',
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException({
+        type: 'error',
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
     }
   }
 
-  private addNewPhotoSize(photos: PhotoBasic[], sizeName: string, size: number): PhotoBasic[] {
-    const SMALL_SIZE = 'w=400';
-    const NEW_SIZE = `w=${size}`;
-    const resultsWithNewSize = photos.map((photo) => {
-      const smallSizeURlArray = photo.urls.small.split('&');
-      const isCanCreateNewSize =
-        smallSizeURlArray.lastIndexOf(SMALL_SIZE) === smallSizeURlArray.length - 1;
-      if (isCanCreateNewSize) {
-        smallSizeURlArray.splice(-1, 1, NEW_SIZE);
-        photo.urls[sizeName] = smallSizeURlArray.join('&');
-      } else {
-        photo.urls[sizeName] = photo.urls.regular;
-      }
-      return photo;
-    });
+  async getPhoto(photoId: string): Promise<IResponsePhoto<PhotoBasic>> {
+    try {
+      const unsplashResponse: IResponsePhotoUnsplash<PhotoBasic> = await this.unsplash.photos.get({
+        photoId,
+      });
+      const { type, status, response } = unsplashResponse;
 
-    return resultsWithNewSize;
+      console.log(response);
+      if (status === HttpStatus.OK) {
+        return {
+          type,
+          statusCode: status,
+          result: addNewPhotoSize([response], 'medium', 600)[0],
+        };
+      } else {
+        throw new HttpException(
+          {
+            type,
+            statusCode: status,
+            message: 'Error while get photo',
+          },
+          status,
+        );
+      }
+    } catch (error) {
+      throw new BadRequestException({
+        type: 'error',
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
+    }
   }
 }

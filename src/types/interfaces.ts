@@ -14,6 +14,13 @@ export interface IPhotoListOptions {
   orderBy: PhotosOrderByType;
 }
 
+export interface IResponsePhoto<T> {
+  type: ResponseTypeUnsplash;
+  statusCode: HttpStatus;
+  result: T;
+  errors?: never;
+}
+
 export interface IResponsePhotos<T> {
   type: ResponseTypeUnsplash;
   statusCode: HttpStatus;
