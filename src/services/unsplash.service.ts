@@ -118,8 +118,6 @@ export class UnsplashService {
         photoId,
       });
       const { type, status, response } = unsplashResponse;
-
-      console.log(response);
       if (status === HttpStatus.OK) {
         return {
           type,

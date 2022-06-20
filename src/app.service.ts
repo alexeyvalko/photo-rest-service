@@ -1,8 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Service is running!';
+  getHello() {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Server is running' + Date.now(),
+    };
   }
 }

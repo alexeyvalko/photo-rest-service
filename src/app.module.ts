@@ -7,6 +7,7 @@ import { PhotosModule } from './photos/photos.module';
 import { SearchModule } from './search/search.module';
 import { PhotoModule } from './photo/photo.module';
 import configuration from './config/configuration';
+import { GLOBAL_CACHE_TIMEOUT } from './config/constants';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import configuration from './config/configuration';
       cache: true,
     }),
     CacheModule.register({
-      ttl: 100000,
+      ttl: GLOBAL_CACHE_TIMEOUT,
       max: 2000,
       isGlobal: true,
     }),

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { CacheTTL, Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
@@ -9,7 +9,8 @@ export class AppController {
 
   @Get()
   @ApiOkResponse({ description: 'Server is running' })
-  getHello(): string {
+  @CacheTTL(1)
+  getHello() {
     return this.appService.getHello();
   }
 }
