@@ -5,7 +5,8 @@ export class AppService {
   getHello() {
     return {
       statusCode: HttpStatus.OK,
-      message: 'Server is running' + Date.now(),
+      message: 'Server is running',
+      timestamp: Date.now(),
     };
   }
 }
