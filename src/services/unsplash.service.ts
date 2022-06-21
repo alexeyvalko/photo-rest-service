@@ -12,6 +12,7 @@ import {
   ISearchOptions,
 } from 'src/types/interfaces';
 import { addNewPhotoSize } from 'src/utils/addNewPhotoSize';
+import { DownloadLInkDto } from 'src/photos/dto/downloadLInkDto';
 
 @Injectable()
 export class UnsplashService {
@@ -60,9 +61,11 @@ export class UnsplashService {
     }
   }
 
-  async trackDownload(options: { downloadLocation: string }): Promise<IResponseUnsplash<any>> {
+  async trackDownload(downloadLInkDto: DownloadLInkDto): Promise<IResponseUnsplash<any>> {
     try {
-      const response: IResponseUnsplash<any> = await this.unsplash.photos.trackDownload(options);
+      const response: IResponseUnsplash<any> = await this.unsplash.photos.trackDownload(
+        downloadLInkDto,
+      );
       const { status } = response;
       if (status === HttpStatus.OK) {
         return response;
