@@ -11,6 +11,7 @@ import {
 import { OrderBySearchPipe } from 'src/pipes/OrderBySearch.pipe';
 import { PagePipe } from 'src/pipes/Page.pipe';
 import { ColorsPipe } from 'src/pipes/Colors.pipe';
+import { SEARCH_CACHE_TIMEOUT } from 'src/config/constants';
 
 @ApiTags('search')
 @Controller('search')
@@ -21,7 +22,7 @@ export class SearchController {
   @ApiOkResponse({
     description: 'Get list of photos',
   })
-  @CacheTTL(500000)
+  @CacheTTL(SEARCH_CACHE_TIMEOUT)
   findAllPhotos(
     @Query('query') query: string,
     @Query('page', PagePipe) page: number,

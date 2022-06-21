@@ -5,7 +5,7 @@ import { PagePipe } from 'src/pipes/Page.pipe';
 import { PhotosService } from './photos.service';
 import { PhotosOrderByType } from 'src/types/unsplash/helpers';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { NO_CACHE_TIMEOUT, SEARCH_CACHE_TIMEOUT } from 'src/config/constants';
+import { GLOBAL_CACHE_TIMEOUT, NO_CACHE_TIMEOUT } from 'src/config/constants';
 import { DownloadLInkDto } from './dto/downloadLInkDto';
 
 @ApiTags('photos')
@@ -18,7 +18,7 @@ export class PhotosController {
     description: 'Get list of photos',
   })
   @HttpCode(HttpStatus.OK)
-  @CacheTTL(SEARCH_CACHE_TIMEOUT)
+  @CacheTTL(GLOBAL_CACHE_TIMEOUT)
   getPhotoList(
     @Query('page', PagePipe) page: number,
     @Query('per_page', PerPagePipe) perPage: number,
