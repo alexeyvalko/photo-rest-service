@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple REST service for photo app.
+Simple REST service for [photo app](https://github.com/alexeyvalko/photo-app). Made with [NestJS](https://nestjs.com/)
 
 
 ## Swagger
