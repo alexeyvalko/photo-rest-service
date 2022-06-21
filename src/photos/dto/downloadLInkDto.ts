@@ -1,3 +1,3 @@
 export class DownloadLInkDto {
-  downloadLInkDto: string;
+  downloadLocation: string;
 }

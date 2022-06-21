@@ -28,6 +28,7 @@ export class PhotosController {
   }
 
   @Post('/download')
+  @CacheTTL(1)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() downloadLInkDto: DownloadLInkDto) {
     return await this.photoService.trackDownload(downloadLInkDto);
