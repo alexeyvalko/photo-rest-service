@@ -5,7 +5,7 @@ import { PagePipe } from 'src/pipes/Page.pipe';
 import { PhotosService } from './photos.service';
 import { PhotosOrderByType } from 'src/types/unsplash/helpers';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { SEARCH_CACHE_TIMEOUT } from 'src/config/constants';
+import { NO_CACHE_TIMEOUT, SEARCH_CACHE_TIMEOUT } from 'src/config/constants';
 import { DownloadLInkDto } from './dto/downloadLInkDto';
 
 @ApiTags('photos')
@@ -28,7 +28,10 @@ export class PhotosController {
   }
 
   @Post('/download')
-  @CacheTTL(1)
+  @ApiOkResponse({
+    description: 'Track download photo',
+  })
+  @CacheTTL(NO_CACHE_TIMEOUT)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() downloadLInkDto: DownloadLInkDto) {
     return await this.photoService.trackDownload(downloadLInkDto);
