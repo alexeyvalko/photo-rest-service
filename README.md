@@ -20,7 +20,7 @@ Create `.env` file and write your key in variable (see example below).
 UNSPLASH_ACCESS_KEY=your_key
 UNSPLASH_SECRET_KEY=your_secret
 ```
-Your next step is config server `host` and `port`
+Your next step is to configure `host` and `port`
 
 ```bash
 # Server configuration
