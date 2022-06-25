@@ -11,7 +11,7 @@ Swagger docs avaliable on `/docs` endpoint by default.
 
 ## Setting up an application
 
-To run this app you need to get [Unsplash API KEY](https://unsplash.com/developers). 
+Before you run this app you need to get [Unsplash API KEY](https://unsplash.com/developers). 
 
 Create `.env` file and write your key in variable (see example below).
 
