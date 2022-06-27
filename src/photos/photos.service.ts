@@ -14,4 +14,8 @@ export class PhotosService {
   trackDownload(downloadLInkDto: DownloadLInkDto) {
     return this.unsplashService.trackDownload(downloadLInkDto);
   }
+
+  findOne(photoId: string) {
+    return this.unsplashService.getPhoto(photoId);
+  }
 }

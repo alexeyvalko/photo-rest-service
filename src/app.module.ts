@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PhotosModule } from './photos/photos.module';
 import { SearchModule } from './search/search.module';
-import { PhotoModule } from './photo/photo.module';
 import configuration from './config/configuration';
 import { GLOBAL_CACHE_TIMEOUT } from './config/constants';
 
@@ -23,7 +22,6 @@ import { GLOBAL_CACHE_TIMEOUT } from './config/constants';
     }),
     PhotosModule,
     SearchModule,
-    PhotoModule,
   ],
   controllers: [AppController],
   providers: [
