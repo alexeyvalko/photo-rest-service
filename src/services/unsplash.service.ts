@@ -17,8 +17,19 @@ import { DownloadLInkDto } from 'src/photos/dto/downloadLInkDto';
 @Injectable()
 export class UnsplashService {
   private readonly unsplash: Unsplash;
+  private readonly newPhotoSizes: { sizeName: string; size: number }[];
 
   constructor(private configService: ConfigService) {
+    this.newPhotoSizes = [
+      {
+        sizeName: 'medium',
+        size: 600,
+      },
+      {
+        sizeName: 'large',
+        size: 2160,
+      },
+    ];
     this.unsplash = createApi({
       accessKey: this.configService.get('unsplash.accessKey'),
       fetch: fetch,
@@ -40,7 +51,7 @@ export class UnsplashService {
           statusCode: status,
           total,
           total_pages: Math.ceil(total / options.perPage),
-          results: addNewPhotoSize(filteredAdsResults, 'medium', 600),
+          results: addNewPhotoSize(filteredAdsResults, this.newPhotoSizes),
         };
       } else {
         throw new HttpException(
@@ -94,7 +105,7 @@ export class UnsplashService {
           statusCode: status,
           total,
           total_pages,
-          results: addNewPhotoSize(filteredAdsResults, 'medium', 600),
+          results: addNewPhotoSize(filteredAdsResults, this.newPhotoSizes),
         };
       } else {
         throw new HttpException(
@@ -125,7 +136,7 @@ export class UnsplashService {
         return {
           type,
           statusCode: status,
-          result: addNewPhotoSize([response], 'medium', 600)[0],
+          result: addNewPhotoSize([response], this.newPhotoSizes)[0],
         };
       } else {
         throw new HttpException(

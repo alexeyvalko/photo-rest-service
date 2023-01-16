@@ -1,24 +1,21 @@
 import { PhotoBasic } from 'src/types/unsplash/photos';
 
+interface newPhotoLinkType {
+  sizeName: string;
+  size: number;
+}
+
 export const addNewPhotoSize = (
   photos: PhotoBasic[],
-  sizeName: string,
-  size: number,
+  options: newPhotoLinkType[],
 ): PhotoBasic[] => {
-  const SMALL_SIZE = 'w=400';
-  const NEW_SIZE = `w=${size}`;
-  const resultsWithNewSize = photos.map((photo) => {
-    const smallSizeURlArray = photo.urls.small.split('&');
-    const isCanCreateNewSize =
-      smallSizeURlArray.lastIndexOf(SMALL_SIZE) === smallSizeURlArray.length - 1;
-    if (isCanCreateNewSize) {
-      smallSizeURlArray.splice(-1, 1, NEW_SIZE);
-      photo.urls[sizeName] = smallSizeURlArray.join('&');
-    } else {
-      photo.urls[sizeName] = photo.urls.regular;
-    }
+  const resultsWithNewSizes = photos.map((photo) => {
+    options.forEach(({ size, sizeName }) => {
+      const NEW_SIZE = `q=80&w=${size}`;
+      photo.urls[sizeName] = `${photo.urls.raw}?${NEW_SIZE}`;
+    });
     return photo;
   });
 
-  return resultsWithNewSize;
+  return resultsWithNewSizes;
 };

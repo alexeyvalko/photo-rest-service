@@ -46,13 +46,14 @@ export class PhotosController {
     return this.photoService.findOne(photoId);
   }
 
-  @Post('/download')
+  @Post('download')
   @ApiOkResponse({
     description: 'Track download photo',
   })
   @CacheTTL(NO_CACHE_TIMEOUT)
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   async create(@Body() downloadLInkDto: DownloadLInkDto) {
-    return await this.photoService.trackDownload(downloadLInkDto);
+    await this.photoService.trackDownload(downloadLInkDto);
+    return { status: 'success', url: downloadLInkDto.downloadLocation };
   }
 }
